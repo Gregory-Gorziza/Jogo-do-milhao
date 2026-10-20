@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo do Milhão</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="game">
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('index') }}">JOGO DO MILHÃO</a>
+      <span class="badge">DESAFIO DE CONHECIMENTO</span>
+    </header>
+
+    <section class="status" aria-label="Progresso do jogo">
+      <div>
+        <span class="eyebrow">NÍVEL</span>
+        <strong>{{ level + 1 }} <span class="muted">/ {{ level_count }}</span></strong>
+      </div>
+      <div class="status-right">
+        <span class="eyebrow">VALOR DESTA PERGUNTA</span>
+        <strong class="money">R$ {{ "{:,.2f}".format(prize).replace(",", "X").replace(".", ",").replace("X", ".") }}</strong>
+      </div>
+    </section>
+
+    <section class="question-card">
+      <div class="question-mark">?</div>
+      <p class="eyebrow">RESPONDA PARA AVANÇAR</p>
+      <h1>{{ question.text }}</h1>
+      <p class="earned">Prêmio garantido até agora:
+        <strong>R$ {{ "{:,.2f}".format(earned).replace(",", "X").replace(".", ",").replace("X", ".") }}</strong>
+      </p>
+    </section>
+
+    <form class="answers" action="{{ url_for('action') }}" method="post">
+      <input type="hidden" name="action" value="answer">
+      {% for option in question.options %}
+      <button class="answer" type="submit" name="answer" value="{{ loop.index0 }}"
+              {% if loop.index0 in hidden_options %}disabled aria-hidden="true"{% endif %}>
+        <span class="letter">{{ "ABCD"[loop.index0] }}</span>
+        <span>{{ option }}</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+      {% endfor %}
+    </form>
+
+    <section class="actions">
+      <form action="{{ url_for('action') }}" method="post">
+        <button class="stop-button" type="submit" name="action" value="stop">PARAR E GARANTIR O PRÊMIO</button>
+      </form>
+      <div class="help-header">
+        <span class="eyebrow">AJUDAS DISPONÍVEIS</span>
+        <span class="help-note">Cada ajuda pode ser usada uma vez por partida.</span>
+      </div>
+      <div class="helps">
+        <form action="{{ url_for('action') }}" method="post">
+          <button class="help-button" type="submit" name="action" value="skip" {% if skips == 0 %}disabled{% endif %}>
+            Pular <span>{{ skips }} restantes</span>
+          </button>
+        </form>
+        <form action="{{ url_for('action') }}" method="post">
+          <button class="help-button" type="submit" name="action" value="half" {% if not half_available %}disabled{% endif %}>
+            Metade <span>50/50</span>
+          </button>
+        </form>
+        <form action="{{ url_for('action') }}" method="post">
+          <button class="help-button" type="submit" name="action" value="hint" {% if not hint_available %}disabled{% endif %}>
+            Ver dica <span>1x</span>
+          </button>
+        </form>
+      </div>
+      {% if hint_visible %}
+      <p class="hint"><strong>Dica:</strong> {{ question.hint }}</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>

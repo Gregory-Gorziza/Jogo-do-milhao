@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resultado · Jogo do Milhão</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="result-card">
+    <div class="result-icon">{% if result.outcome == "win" %}★{% elif result.outcome == "wrong" %}×{% else %}✓{% endif %}</div>
+    {% if result.outcome == "win" %}
+      <p class="eyebrow">VITÓRIA</p>
+      <h1>Você chegou ao milhão!</h1>
+    {% elif result.outcome == "wrong" %}
+      <p class="eyebrow">FIM DE JOGO</p>
+      <h1>Resposta incorreta.</h1>
+    {% else %}
+      <p class="eyebrow">PARTIDA ENCERRADA</p>
+      <h1>Você decidiu parar.</h1>
+    {% endif %}
+    <p class="result-prize">Prêmio: <strong>R$ {{ "{:,.2f}".format(result.prize).replace(",", "X").replace(".", ",").replace("X", ".") }}</strong></p>
+    <form action="{{ url_for('restart') }}" method="post">
+      <button class="primary-button" type="submit">JOGAR NOVAMENTE</button>
+    </form>
+  </main>
+</body>
+</html>

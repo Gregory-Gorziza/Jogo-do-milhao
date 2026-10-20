@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perguntas não cadastradas · Jogo do Milhão</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="result-card">
+    <div class="result-icon">!</div>
+    <p class="eyebrow">BANCO DE PERGUNTAS</p>
+    <h1>Este nível ainda não tem perguntas.</h1>
+    <p class="result-prize">
+      Cadastre perguntas e respostas na mesma posição das matrizes em
+      <strong>questions.py</strong> para liberar o nível {{ level + 1 }} de {{ level_count }}.
+    </p>
+    <p class="help-note">Exemplo: PERGUNTAS[0][0] combina com RESPOSTAS[0][0].</p>
+  </main>
+</body>
+</html>
