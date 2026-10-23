@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo do Milhão</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <h1>Jogo do Milhão</h1>
+    <p>Nível {{ level + 1 }} de {{ level_count }} | Prêmio: R$ {{ "{:,.2f}".format(prize).replace(",", "X").replace(".", ",").replace("X", ".") }}</p>
+    <p>Prêmio garantido: R$ {{ "{:,.2f}".format(earned).replace(",", "X").replace(".", ",").replace("X", ".") }}</p>
+
+    <h2>{{ question.text }}</h2>
+    <form action="{{ url_for('action') }}" method="post">
+      <input type="hidden" name="action" value="answer">
+      {% for option in question.options %}
+        <button class="answer" type="submit" name="answer" value="{{ loop.index0 }}"
+                {% if loop.index0 in hidden_options %}disabled hidden{% endif %}>
+          {{ "ABCD"[loop.index0] }}. {{ option }}
+        </button>
+      {% endfor %}
+    </form>
+
+    <h2>Opções</h2>
+    <form action="{{ url_for('action') }}" method="post">
+      <button type="submit" name="action" value="stop">Parar e ficar com o prêmio</button>
+    </form>
+    <form action="{{ url_for('action') }}" method="post">
+      <button type="submit" name="action" value="skip" {% if skips == 0 %}disabled{% endif %}>
+        Pular ({{ skips }} restantes)
+      </button>
+    </form>
+    <form action="{{ url_for('action') }}" method="post">
+      <button type="submit" name="action" value="half" {% if not half_available %}disabled{% endif %}>
+        Eliminar duas respostas
+      </button>
+    </form>
+    <form action="{{ url_for('action') }}" method="post">
+      <button type="submit" name="action" value="hint" {% if not hint_available %}disabled{% endif %}>
+        Ver dica
+      </button>
+    </form>
+    {% if hint_visible %}
+      <p><strong>Dica:</strong> {{ question.hint }}</p>
+    {% endif %}
+  </main>
+</body>
+</html>

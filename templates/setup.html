@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perguntas não cadastradas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <h1>Este nível ainda não tem perguntas.</h1>
+    <p>Cadastre perguntas e respostas em <strong>questions.py</strong> para liberar o nível {{ level + 1 }} de {{ level_count }}.</p>
+    <p>Coloque cada pergunta e suas respostas na mesma posição das listas.</p>
+  </main>
+</body>
+</html>
