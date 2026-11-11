@@ -39,6 +39,12 @@ recarregar a página não muda as alternativas da pergunta atual.
 
 ## Executar
 
+No Windows, execute `iniciar.bat` com duplo clique. Na primeira vez, ele cria
+o ambiente virtual e instala as dependências; depois, inicia o jogo. Abra
+`http://127.0.0.1:5000` no navegador.
+
+Para iniciar manualmente:
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
